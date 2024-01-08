@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import passport from "../server/utils/authStrategies.js";
+import isUserAuthenticated from "./middlewares/authMiddlewares.js";
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -36,11 +37,9 @@ app.use(passport.session()); // Use passport session
 // Routes
 app.use("/auth", authRoutes);
 
-app.get("/access",(req,res) => {
-    if(req.isAuthenticated()){
-        return res.send("Auth");
-    }
-    return res.send("UnAuth");
+app.get("/access", isUserAuthenticated, (req, res) => {
+    res.status(200).json({ success: true, message: "Access granted" }); // User is not authenticated, return an error
+
 });
 
 app.listen(port, () => {
