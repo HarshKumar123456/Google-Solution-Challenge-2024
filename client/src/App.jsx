@@ -1,14 +1,16 @@
 import React from "react";
-import Header from "./components/Layout/Header";
-import Layout from "./components/Layout/Layout";
+import { Routes, Route } from 'react-router-dom';
+import Home from "./pages/Home";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
 
   return (
     <>
-      <Layout>
-        This is app inside layout
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path='*' element={<PageNotFound />} />
+      </Routes>
     </>
   )
 }
