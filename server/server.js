@@ -2,6 +2,8 @@ import express from "express";
 import session from "express-session";
 import bodyParser from "body-parser";
 
+import cors from "cors";
+
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import passport from "../server/utils/authStrategies.js";
@@ -16,6 +18,9 @@ connectDB();
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ extended: true }));
+
+// For Cross Origin Resource Sharing
+app.use(cors({ origin: true, credentials: true }));
 
 // Route accessed logger
 app.use((req, res, next) => {

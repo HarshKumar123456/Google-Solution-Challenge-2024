@@ -28,8 +28,8 @@ authRouter.get("/google/secrets", await passport.authenticate("google", { failur
         // Successful authentication, redirect home.
         console.log(`User is authenticated with OAuth2.0 Google and UserId is ${googleId} and MongoDB Id is ${mongoDbId}`);
         // console.log(req);
-        res.status(200).json({message: "User is authenticated",userId: mongoDbId,registerStatus: true});
-        // res.redirect(`${process.env.FRONT_END_URL}`);
+        // res.status(200).json({message: "User is authenticated",userId: mongoDbId,registerStatus: true});
+        res.redirect(`${process.env.FRONT_END_URL}`);
     });
 
 export default authRouter;

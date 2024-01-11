@@ -1,7 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+
 import "../../assets/styles/Header.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
+    const navigate = useNavigate();
+
+    const [isRegistered, setIsRegistered] = useState(false);
+
+    const serverURL = import.meta.env.VITE_SERVER_URL;
+    console.log(serverURL);
+
+    const checkIfRegistered = async () => {
+        console.log("Checkif registered called\n");
+        try {
+            const response = await axios.get(`${serverURL}/access`, { withCredentials: true });
+            if (response?.data?.success) {
+                setIsRegistered(true);
+            }
+            else {
+                setIsRegistered(false);
+                console.log("Changed registered status to false");
+
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        checkIfRegistered();
+        if (isRegistered) {
+            alert("Congratulations!! You are Registered....");
+        }
+    }, [isRegistered]);
+
     return <>
         <>
             <nav
@@ -42,54 +76,70 @@ const Header = () => {
                         <div className="offcanvas-body">
                             <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">
+                                    <Link to={"/"} className="nav-link active" aria-current="page">
                                         Home
-                                    </a>
+                                    </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link active" aria-current="page" href="#">
+                                    <Link to={"/about-us"} className="nav-link active" aria-current="page">
                                         About Us
-                                    </a>
+                                    </Link>
                                 </li>
-                                
-                                <li className="nav-item">
-                                    <a className="nav-link" href="#">
-                                        User
-                                    </a>
-                                </li>
-                                <li className="nav-item dropdown">
-                                    <a
-                                        className="nav-link dropdown-toggle"
-                                        href="#"
-                                        role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                    >
-                                        
-                                    </a>
-                                    <ul className="dropdown-menu">
-                                        <li>
-                                            <a className="dropdown-item" href="#">
-                                                My Profile
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a className="dropdown-item" href="#">
-                                                Dashboard
-                                            </a>
-                                        </li>
-                                        
-                                        <li>
-                                            <hr className="dropdown-divider" />
-                                        </li>
 
-                                        <li>
-                                            <a className="dropdown-item" href="#">
-                                                Log Out
+                                {isRegistered ?
+                                    <>
+                                        <li className="nav-item">
+                                            <a className="nav-link" href="#">
+                                                User
                                             </a>
                                         </li>
-                                    </ul>
-                                </li>
+                                        <li className="nav-item dropdown">
+                                            <a
+                                                className="nav-link dropdown-toggle"
+                                                href="#"
+                                                role="button"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+
+                                            </a>
+                                            <ul className="dropdown-menu">
+                                                <li>
+                                                    <a className="dropdown-item" href="#">
+                                                        My Profile
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a className="dropdown-item" href="#">
+                                                        Dashboard
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <hr className="dropdown-divider" />
+                                                </li>
+
+                                                <li>
+                                                    <a className="dropdown-item" href="#">
+                                                        Log Out
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </> :
+                                    <>
+                                        <li className="nav-item">
+                                            <Link to={"/sign-up"} className="nav-link">
+                                                Sign Up
+                                            </Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/sign-in"} className="nav-link">
+                                                Sign In
+                                            </Link>
+                                        </li>
+                                    </>
+                                }
                             </ul>
                             <form className="d-flex mt-3 mt-lg-0" role="search">
                                 <input
