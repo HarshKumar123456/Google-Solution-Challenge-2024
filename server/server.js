@@ -5,9 +5,12 @@ import bodyParser from "body-parser";
 import cors from "cors";
 
 import connectDB from "./config/db.js";
-import authRoutes from "./routes/authRoutes.js";
 import passport from "../server/utils/authStrategies.js";
 import isUserAuthenticated from "./middlewares/authMiddlewares.js";
+
+import authRoutes from "./routes/authRoutes.js";
+import researchRoutes from "./routes/researchRoutes.js";
+
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -41,6 +44,7 @@ app.use(passport.session()); // Use passport session
 
 // Routes
 app.use("/auth", authRoutes);
+app.use("/researches",researchRoutes);
 
 app.get("/access", isUserAuthenticated, (req, res) => {
     res.status(200).json({ success: true, message: "Access granted" }); // User is not authenticated, return an error
