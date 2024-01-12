@@ -10,10 +10,10 @@ const Header = () => {
     const [isRegistered, setIsRegistered] = useState(false);
 
     const serverURL = import.meta.env.VITE_SERVER_URL;
-    console.log(serverURL);
+    // console.log(serverURL);
 
     const checkIfRegistered = async () => {
-        console.log("Checkif registered called\n");
+        // console.log("Checkif registered called\n");
         try {
             const response = await axios.get(`${serverURL}/access`, { withCredentials: true });
             if (response?.data?.success) {
@@ -31,9 +31,9 @@ const Header = () => {
 
     useEffect(() => {
         checkIfRegistered();
-        if (isRegistered) {
-            alert("Congratulations!! You are Registered....");
-        }
+        // if (isRegistered) {
+        //     alert("Congratulations!! You are Registered....");
+        // }
     }, [isRegistered]);
 
     return <>
@@ -43,9 +43,9 @@ const Header = () => {
                 aria-label="Offcanvas navbar large"
             >
                 <div className="container-fluid">
-                    <a className="navbar-brand" href="#">
+                    <Link to={"/"} className="navbar-brand">
                         Life Under Water
-                    </a>
+                    </Link>
                     <button
                         className="navbar-toggler"
                         type="button"
@@ -57,7 +57,7 @@ const Header = () => {
                         <span className="navbar-toggler-icon" />
                     </button>
                     <div
-                        className="offcanvas offcanvas-end text-bg-dark"
+                        className="offcanvas offcanvas-end"
                         tabIndex={-1}
                         id="offcanvasNavbar2"
                         aria-labelledby="offcanvasNavbar2Label"
@@ -68,7 +68,7 @@ const Header = () => {
                             </h5>
                             <button
                                 type="button"
-                                className="btn-close btn-close-white"
+                                className="btn-close btn-close-dark"
                                 data-bs-dismiss="offcanvas"
                                 aria-label="Close"
                             />
